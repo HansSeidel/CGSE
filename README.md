@@ -1,8 +1,8 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.2 (gitTag: v0.2) <br>
-> *Git commit message:* Learning - Create own shaders <br>
+> *Version:* 0.3 (gitTag: v0.3) <br>
+> *Git commit message:* Learning - Outsource own basic shaders <br>
 > *Version Date:* 11.01.2022 
 
 
@@ -65,5 +65,6 @@ In git the first part is below version 1.0. So any tag with (v0.*)
 At the beginning of the project, the setup has been created. In order to check if everything is running 
 correct, a simple triangle was created.
 **(v0.1)** - The next step was to write our own shaders and get the program running again. 
-Within the fragment shader we defined the color of the triangle.
+Within the fragment shader we defined the color of the triangle. 
+**(v0.2)** - The shaders have been outsourced into a Basic.shader file.
 
