@@ -2,7 +2,7 @@
 
 > ***Author:*** Hans Seidel (if20b211) <br>
 > *Version:* 0.3 (gitTag: v0.3) <br>
-> *Git commit message:* Learning - Outsource own basic shaders <br>
+> *Git commit message:* Learning - Index Buffers <br>
 > *Version Date:* 11.01.2022 
 
 
@@ -67,4 +67,5 @@ correct, a simple triangle was created.
 **(v0.1)** - The next step was to write our own shaders and get the program running again. 
 Within the fragment shader we defined the color of the triangle. 
 **(v0.2)** - The shaders have been outsourced into a Basic.shader file.
+**(v0.3)** - Next, an indexed buffer has been created and we drew a rectangle. 
 
