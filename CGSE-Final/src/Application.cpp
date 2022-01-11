@@ -113,6 +113,11 @@ int main(void)
         2,3,0
     };
 
+    //H-Creating a Vertex Array Object 
+    unsigned int vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
     unsigned int buffer;                    
     glGenBuffers(1, &buffer);
     //H-Create a vertex buffer and save the id inside the memory address of the buffer variable
@@ -127,11 +132,11 @@ int main(void)
     //H-Select the generated Buffer to edit
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
-    
+    //H-GlEnableVertexAttribArray does only work, if an Vertex Array Object (VAO) exists. In newer versions, if no VAO defined, openGL generates a VAO in the Background and binds it to the Array Buffer.
     /*H-These lines enable the GL_ARRAY_BUFFER attributes to be modifies inside the shader. So they define the layout and the locations of the specific attributes*/
     glEnableVertexAttribArray(0);
     // glVert... (index -> Which attribute index we are looking at, size -> Dimension of the attr. (1,2,3 or 4), type, shellNormalise?, stride (Byte size of an vertex), pointer -> How many Bytes are before the attribute we are looking at) 
-    // This method is wired with the GL_ARRAY_BUFFER
+    // This method tells index 0 of the vao to be bound to the current Array Buffer.
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0); 
 
     /* H-Reading in shaders */
@@ -145,14 +150,30 @@ int main(void)
     float c_r = 0.0f;
     float increment = 0.05f;
 
+    //Clearing all Buffers before starting with render loop.
+    glBindVertexArray(0);
+    glUseProgram(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-        
+
+        //H-Use defined shaders
+        glUseProgram(shader);
+
         glUniform4f(location, c_r, 0.3f, 0.8f, 1.0f);
-        /*H_Draw the vertex buffer*/
+        
+        //H-Buffer should be binded bevore each Drawcall because they could change or be unbinded.
+        //In this case they have been cleared before entering the render loop.
+        //Because the Vertex Array Object is connected with the GL_ARRAY_BUFFER, we do not need to bind the GL_ARRAY_BUFFER again.
+        glBindVertexArray(vao);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
+        /*H-Draw the vertex buffer*/
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         
         if (c_r >= 1.0f) {

@@ -1,8 +1,8 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.4 (gitTag: v0.4) <br>
-> *Git commit message:* Learning - Uniforms and updated glVertexAttribPointer commants <br>
+> *Version:* 0.5 (gitTag: v0.5) <br>
+> *Git commit message:* Learning - Vertex Array Objects <br>
 > *Version Date:* 11.01.2022 
 
 
@@ -12,7 +12,7 @@ This project is part of a lecture at the *Fachhochschule Technikum Wien*.
 The final project shows a endless world with the same house arrayed next to each other.
 
 **In order to setup the project you only need the follwing chapters:**
-- [Envirement and Dependencies](#envirement-and-dependencies)
+- [Envirement and Dependencies](#envirement-and-dependencies)^
 - [Setup](#setup)
 
 ##Tasks
@@ -38,6 +38,7 @@ The original assignment description is shown at the following link: [Project Sub
 
 ###Dependencies
 > ***GLFW Librarby:*** [Windows pre-compiled binaries](https://www.glfw.org/download.html) <br>
+> *Architecture:* 32-bit Windows binaries <br>
 > *Version:* 3.3.6 <br>
 > *Used library:* 
 > - lib-vc2019 
@@ -70,4 +71,7 @@ Within the fragment shader we defined the color of the triangle.
 **(v0.3)** - Next, an indexed buffer has been created and we drew a rectangle.
 **(v0.4)** - The color attribute was taken out to the cpu layer by an uniform. With each frame the red channel got incremented. 
 The Framerate has been adjusted by glfwSwapInterval(1) which synchronizes with the v-sync of the monitor.
+**(v0.5)** - Instead of using the default vertex array object (vao) which is created in the background 
+(if openGl is running with the compat profile), an own vao has been created and wired with the vertex array buffer.
+
 
