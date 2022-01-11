@@ -91,6 +91,8 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    glfwSwapInterval(1);
+
     /* H-Initialize glew Init*/
     glewInit();
 
@@ -126,8 +128,10 @@ int main(void)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
     
-    //H-Rewatch: https://www.youtube.com/watch?v=x0H--CL2tUI&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&index=5 to understand glVertexAttribPointer.
+    /*H-These lines enable the GL_ARRAY_BUFFER attributes to be modifies inside the shader. So they define the layout and the locations of the specific attributes*/
     glEnableVertexAttribArray(0);
+    // glVert... (index -> Which attribute index we are looking at, size -> Dimension of the attr. (1,2,3 or 4), type, shellNormalise?, stride (Byte size of an vertex), pointer -> How many Bytes are before the attribute we are looking at) 
+    // This method is wired with the GL_ARRAY_BUFFER
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0); 
 
     /* H-Reading in shaders */
@@ -135,15 +139,29 @@ int main(void)
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
     glUseProgram(shader);
 
+    //H-getting the l
+    int location = glGetUniformLocation(shader, "u_Color");
+    //ASSERT(location != -1);
+    float c_r = 0.0f;
+    float increment = 0.05f;
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-
+        
+        glUniform4f(location, c_r, 0.3f, 0.8f, 1.0f);
         /*H_Draw the vertex buffer*/
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         
+        if (c_r >= 1.0f) {
+            increment = -0.05f;
+        }
+        else if (c_r <= 0.0f) {
+            increment = 0.05f;
+        }
+        c_r += increment;
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 

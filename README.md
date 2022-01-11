@@ -1,8 +1,8 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.3 (gitTag: v0.3) <br>
-> *Git commit message:* Learning - Index Buffers <br>
+> *Version:* 0.4 (gitTag: v0.4) <br>
+> *Git commit message:* Learning - Uniforms and updated glVertexAttribPointer commants <br>
 > *Version Date:* 11.01.2022 
 
 
@@ -67,5 +67,7 @@ correct, a simple triangle was created.
 **(v0.1)** - The next step was to write our own shaders and get the program running again. 
 Within the fragment shader we defined the color of the triangle. 
 **(v0.2)** - The shaders have been outsourced into a Basic.shader file.
-**(v0.3)** - Next, an indexed buffer has been created and we drew a rectangle. 
+**(v0.3)** - Next, an indexed buffer has been created and we drew a rectangle.
+**(v0.4)** - The color attribute was taken out to the cpu layer by an uniform. With each frame the red channel got incremented. 
+The Framerate has been adjusted by glfwSwapInterval(1) which synchronizes with the v-sync of the monitor.
 
