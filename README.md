@@ -48,7 +48,7 @@ The original assignment description is shown at the following link: [Project Sub
 > *Version:* 2.1.0
 
 > ***GLM Library:*** [G-Truc Creation Github](https://github.com/g-truc/glm/releases/tag/0.9.8.5) <br>
-> *Version:* 0.9.8.5
+> *Version:* glm-0.9.8.5
 
 ##Setup
 1. Download the ***GLFW Library*** and put the ***include*** and the ***lib-vc2019*** folder inside the ***Dependencies\GLFW*** folder.

@@ -14,6 +14,11 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+//H-IAMGUI TODO: Delete later if possible ################## 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw_gl3.h"
+//H-IAMGUI TODO: Delete later if possible ################## 
+
 int main(void)
 {
     GLFWwindow* window;
@@ -77,9 +82,6 @@ int main(void)
         //Creating mvp
         glm::mat4 proj = glm::ortho(-2.0f,2.0f,-1.5f,1.0f,-1.0f,1.0f);
         glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-1, 0, 0));
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(2, 1, 0));
-
-        glm::mat4 mvp = proj * view * model;
 
         /* H-Reading in shaders */
         Shader shader("res/shaders/Basic.shader");
@@ -89,7 +91,7 @@ int main(void)
         Texture texture("res/textures/brown_rock_19_78_diffuse.jpg");
         texture.Bind();
         shader.setUniform1i("u_Texture", 0);
-        shader.setUniformMat4f("u_MVP", mvp);
+        
 
 
 
@@ -104,11 +106,32 @@ int main(void)
 
         Renderer renderer;
 
+        //H-IAMGUI TODO: Delete later if possible ################## 
+        ImGui::CreateContext();
+        ImGui_ImplGlfwGL3_Init(window, true);
+        ImGui::StyleColorsDark();
+        //H-IAMGUI TODO: Delete later if possible ################## 
+        glm::vec3 translation(0.5, 1, 0);
+        //
+        //##
+
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
             renderer.Clear();
+
+            //H-IAMGUI TODO: Delete later if possible ################## 
+            ImGui_ImplGlfwGL3_NewFrame();
+            bool show_demo_window = true;
+            bool show_another_window = false;
+            ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+            //H-IAMGUI TODO: Delete later if possible ################## 
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
+            //glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.5, 1, 0));
+            //##
+            glm::mat4 mvp = proj * view * model;
+            shader.setUniformMat4f("u_MVP", mvp);
 
             //H-Use defined shaders
             shader.Bind();
@@ -125,6 +148,16 @@ int main(void)
                 increment = 0.05f;
             }
             c_r += increment;
+
+            //H-IAMGUI TODO: Delete later if possible ################## 
+            {
+                ImGui::SliderFloat3("Translation", &translation.x, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f 
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            }
+            ImGui::Render();
+            ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+            //H-IAMGUI TODO: Delete later if possible ################## 
+
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
 
@@ -132,6 +165,10 @@ int main(void)
             glfwPollEvents();
         }
     }
+    //H-IAMGUI TODO: Delete later if possible ################## 
+    ImGui_ImplGlfwGL3_Shutdown();
+    ImGui::DestroyContext(); 
+    //H-IAMGUI TODO: Delete later if possible ################## 
     glfwTerminate();
     return 0;
 }
