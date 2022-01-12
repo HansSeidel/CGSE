@@ -7,6 +7,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
+#include "VertexBufferLayout.h"
 #include "Shader.h"
 
 int main(void)
@@ -80,24 +81,20 @@ int main(void)
         vb.UnBind();
         ibo.UnBind();
 
+        Renderer renderer;
+
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
-            glClear(GL_COLOR_BUFFER_BIT);
+            renderer.Clear();
 
             //H-Use defined shaders
             shader.Bind();
             shader.setUniform4f("u_Color", c_r, 0.3f, 0.8f, 1.0f);
 
-            //H-Buffer should be binded bevore each Drawcall because they could change or be unbinded.
-            //In this case they have been cleared before entering the render loop.
-            //Because the Vertex Array Object is connected with the GL_ARRAY_BUFFER, we do not need to bind the GL_ARRAY_BUFFER again.
-            ibo.Bind();
-            va.Bind();
-
             /*H-Draw the vertex buffer*/
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+            renderer.Draw(va,ibo,shader);
 
             if (c_r >= 1.0f) {
                 increment = -0.05f;
