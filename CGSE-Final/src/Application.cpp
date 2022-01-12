@@ -9,6 +9,7 @@
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
+#include "Texture.h"
 
 int main(void)
 {
@@ -41,10 +42,10 @@ int main(void)
         /* H-Create a VertexBuffer */
         //H-Create Data-Array for an triangle
         float triangle[] = {
-            -0.5f, -0.5f,
-            0.5f, -0.5f,
-            0.5f,  0.5f,
-            -0.5f,  0.5f
+            -0.5f, -0.5f, 0.0f, 0.0f,
+             0.5f, -0.5f, 1.0f, 0.0f,
+             0.5f,  0.5f, 1.0f, 1.0f,
+            -0.5f,  0.5f, 0.0f, 1.0f
         };
 
         //H-Create an index-Buffer
@@ -53,13 +54,17 @@ int main(void)
             2,3,0
         };
 
+        // Allow Blending (Blending includes transparency)
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         //H-Outsourced the VertexBuffer and call it here
-        VertexBuffer vb(triangle, 4 * 2 * sizeof(float));
+        VertexBuffer vb(triangle, 4 * 4 * sizeof(float));
 
         //H-Outsourced Vertex Array Objext
         VertexArray va;
         VertexBufferLayout layout;
+        layout.Push<float>(2);
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
         
@@ -71,6 +76,12 @@ int main(void)
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
         shader.setUniform4f("u_Color",0.8f,0.3f,0.8f,1.0f);
+
+        Texture texture("res/textures/brown_rock_19_78_diffuse.jpg");
+        texture.Bind();
+        shader.setUniform1i("u_Texture", 0);
+
+
 
         float c_r = 0.0f;
         float increment = 0.05f;
@@ -95,6 +106,7 @@ int main(void)
 
             /*H-Draw the vertex buffer*/
             renderer.Draw(va,ibo,shader);
+            
 
             if (c_r >= 1.0f) {
                 increment = -0.05f;

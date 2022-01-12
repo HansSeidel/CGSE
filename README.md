@@ -1,9 +1,9 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.6 (gitTag: v0.6) <br>
-> *Git commit message:* Learning - Abstracting <br>
-> *Version Date:* 11.01.2022 
+> *Version:* 0.7 (gitTag: v0.7) <br>
+> *Git commit message:* Learning - Adding a renderer and textures <br>
+> *Version Date:* 12.01.2022 
 
 
 ##Description
@@ -75,5 +75,7 @@ The Framerate has been adjusted by glfwSwapInterval(1) which synchronizes with t
 (if openGl is running with the compat profile), an own vao has been created and wired with the vertex array buffer.
 **(v0.6)** - Now it is time to abstract the written code into different classes and save some lines of code. 
 The IndexBuffer, VertexBuffer, VertexArrayObject and shader has been outsourced and they are working as own classes.
-We also added a Renderer but didn't implement anything yet.
+**(v0.7)** - To wrap things up, a render class was implemented, so it's easier to pass data in between. 
+In order to use a texture, stb_image and a Texture class was implemented. 
+With little adjustments inside the fragment shader, the texture could be loaded and shown.
 
