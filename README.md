@@ -1,8 +1,8 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.7 (gitTag: v0.7) <br>
-> *Git commit message:* Learning - Adding a renderer and textures <br>
+> *Version:* 0.8 (gitTag: v0.8) <br>
+> *Git commit message:* Learning - MVP <br>
 > *Version Date:* 12.01.2022 
 
 
@@ -44,12 +44,16 @@ The original assignment description is shown at the following link: [Project Sub
 > - lib-vc2019 
 > - include
 
-> ***Glew:*** Windows 32-bit and 64-bit <br>
+> ***Glew:*** [Windows 32-bit and 64-bit](http://glew.sourceforge.net/) <br>
 > *Version:* 2.1.0
 
+> ***GLM Library:*** [G-Truc Creation Github](https://github.com/g-truc/glm/releases/tag/0.9.8.5) <br>
+> *Version:* 0.9.8.5
+
 ##Setup
-1. Download the ***GLFW Library*** and put the *include* and the *lib-vc2019* folder inside the *Dependencies/GLFW* folder.
-2. Download the ***Glew Library*** and put the whole content into the **Dependencies/GLEW* folder.
+1. Download the ***GLFW Library*** and put the ***include*** and the ***lib-vc2019*** folder inside the ***Dependencies\GLFW*** folder.
+2. Download the ***Glew Library*** and put the whole content into the ***Dependencies\GLEW*** folder.
+3. Download the ***GLM Library*** and put the ***glm*** folder inside the ***CGSE-Final\src\vendor*** folder.
 
 
 ## Documentation
@@ -76,6 +80,8 @@ The Framerate has been adjusted by glfwSwapInterval(1) which synchronizes with t
 **(v0.6)** - Now it is time to abstract the written code into different classes and save some lines of code. 
 The IndexBuffer, VertexBuffer, VertexArrayObject and shader has been outsourced and they are working as own classes.
 **(v0.7)** - To wrap things up, a render class was implemented, so it's easier to pass data in between. 
-In order to use a texture, stb_image and a Texture class was implemented. 
+In order to use a texture, [stb_image.h](https://github.com/nothings/stb/blob/master/stb_image.h) and a Texture class was implemented. 
 With little adjustments inside the fragment shader, the texture could be loaded and shown.
+**(v0.8)** - Then the [GLM library (v0.9.8.5)](https://github.com/g-truc/glm/releases/tag/0.9.8.5) has been added as well 
+which made it possible to add the model-, view-, projection-matrices. 
 

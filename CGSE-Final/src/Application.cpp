@@ -11,6 +11,9 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 int main(void)
 {
     GLFWwindow* window;
@@ -20,7 +23,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(950, 540, "Hello World", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -71,6 +74,12 @@ int main(void)
 
         IndexBuffer ibo(indices, 6);
 
+        //Creating mvp
+        glm::mat4 proj = glm::ortho(-2.0f,2.0f,-1.5f,1.0f,-1.0f,1.0f);
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-1, 0, 0));
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(2, 1, 0));
+
+        glm::mat4 mvp = proj * view * model;
 
         /* H-Reading in shaders */
         Shader shader("res/shaders/Basic.shader");
@@ -80,6 +89,7 @@ int main(void)
         Texture texture("res/textures/brown_rock_19_78_diffuse.jpg");
         texture.Bind();
         shader.setUniform1i("u_Texture", 0);
+        shader.setUniformMat4f("u_MVP", mvp);
 
 
 
