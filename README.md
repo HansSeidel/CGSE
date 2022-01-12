@@ -1,8 +1,8 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.5 (gitTag: v0.5) <br>
-> *Git commit message:* Learning - Vertex Array Objects <br>
+> *Version:* 0.6 (gitTag: v0.6) <br>
+> *Git commit message:* Learning - Abstracting <br>
 > *Version Date:* 11.01.2022 
 
 
@@ -12,7 +12,7 @@ This project is part of a lecture at the *Fachhochschule Technikum Wien*.
 The final project shows a endless world with the same house arrayed next to each other.
 
 **In order to setup the project you only need the follwing chapters:**
-- [Envirement and Dependencies](#envirement-and-dependencies)^
+- [Envirement and Dependencies](#envirement-and-dependencies)
 - [Setup](#setup)
 
 ##Tasks
@@ -54,14 +54,14 @@ The original assignment description is shown at the following link: [Project Sub
 
 ## Documentation
 The documentation is split into two parts. 
-The first part descripes the project(s) i used to repeat deepen my knowlegde about openGl.
+The first part descripes the project(s) i used to repeat and deepen my knowlegde about openGL.
 This part follows the steps of [this](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&index=1) tutorial-series.
 <br>
 The second part descripes the progress of the final project.
-<br>
-In git the first part is below version 1.0. So any tag with (v0.*)
 
-### Repetition and consolidation
+<br>In git the first part is below version 1.0. 
+
+### Repetition and consolidation (v0.*)
 **(v0.0)** -
 At the beginning of the project, the setup has been created. In order to check if everything is running 
 correct, a simple triangle was created.
@@ -73,5 +73,7 @@ Within the fragment shader we defined the color of the triangle.
 The Framerate has been adjusted by glfwSwapInterval(1) which synchronizes with the v-sync of the monitor.
 **(v0.5)** - Instead of using the default vertex array object (vao) which is created in the background 
 (if openGl is running with the compat profile), an own vao has been created and wired with the vertex array buffer.
-
+**(v0.6)** - Now it is time to abstract the written code into different classes and save some lines of code. 
+The IndexBuffer, VertexBuffer, VertexArrayObject and shader has been outsourced and they are working as own classes.
+We also added a Renderer but didn't implement anything yet.
 
