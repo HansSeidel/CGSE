@@ -1,9 +1,9 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.8 (gitTag: v0.8) <br>
-> *Git commit message:* Learning - MVP <br>
-> *Version Date:* 12.01.2022 
+> *Version:* 0.9 (gitTag: v0.9) <br>
+> *Git commit message:* Learning - Setting up a testFramework <br>
+> *Version Date:* 15.01.2022 
 
 
 ##Description
@@ -84,4 +84,6 @@ In order to use a texture, [stb_image.h](https://github.com/nothings/stb/blob/ma
 With little adjustments inside the fragment shader, the texture could be loaded and shown.
 **(v0.8)** - Then the [GLM library (v0.9.8.5)](https://github.com/g-truc/glm/releases/tag/0.9.8.5) has been added as well 
 which made it possible to add the model-, view-, projection-matrices. 
+**(v0.9)** - In this tag the IAmGui Lib has been added. This allowes to work inside the scene and manipulate specific values.
+It also has been created a little test-framework with two tests. 
 
