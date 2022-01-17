@@ -47,8 +47,7 @@ namespace test {
 		m_Shader->Bind();
 		m_Shader->setUniform4f("u_Color", 0.8f, 0.8f, 0.2f, 1.0f);
 
-		m_Texture = std::make_unique<Texture>("res/textures/brown_rock_19_78_diffuse.jpg");
-		m_Shader->setUniform1i("u_Texture", 0);
+		m_Texture = std::make_unique<Texture>("res/textures/light_fine_wood_pbr_18_13_diffuse.jpg");
 
 	}
 	TestTexure2D::~TestTexure2D()

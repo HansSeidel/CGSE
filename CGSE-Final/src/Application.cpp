@@ -21,7 +21,8 @@
 //H-Tests: #################################################
 #include "tests/TestClearColor.h"
 #include "tests/TestTexture2D.h"
-
+#include "tests/TestColorBatch.h"
+#include "tests/TestTextureBatch.h"
 //H-Tests: #################################################
 
 int main(void)
@@ -72,6 +73,8 @@ int main(void)
 
         testMenu->RegisterTest<test::TestClearColor>("Clear Color");
         testMenu->RegisterTest<test::TestTexure2D>("Texture Move");
+        testMenu->RegisterTest<test::TestColorBatch>("BatchRendering Colors");
+        testMenu->RegisterTest<test::TestTextureBatch>("Batch Rendering Texture");
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
