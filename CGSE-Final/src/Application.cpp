@@ -23,6 +23,7 @@
 #include "tests/TestTexture2D.h"
 #include "tests/TestColorBatch.h"
 #include "tests/TestTextureBatch.h"
+#include "tests/TestBatchDynamicGeo.h"
 //H-Tests: #################################################
 
 int main(void)
@@ -75,6 +76,7 @@ int main(void)
         testMenu->RegisterTest<test::TestTexure2D>("Texture Move");
         testMenu->RegisterTest<test::TestColorBatch>("BatchRendering Colors");
         testMenu->RegisterTest<test::TestTextureBatch>("Batch Rendering Texture");
+        testMenu->RegisterTest<test::TestBatchDynamicGeo>("Batch Rendering Dynamic");
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
