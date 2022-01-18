@@ -31,7 +31,6 @@ in vec2 v_TexCoord;
 in float v_TexIndex;
 in vec4 v_Color;
 
-uniform vec4 u_Color;
 uniform sampler2D u_TextureArr[2];
 
 void main(){

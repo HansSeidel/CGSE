@@ -1,5 +1,5 @@
 #include "Renderer.h"
-
+#include "Texture.h"
 #include <iostream>
 
 /*H-Debug methods (Not my favourite approach, because it is a wrapper definition*/
@@ -16,6 +16,12 @@ bool GLLogCall(const char* function, const char* file, int line)
 	}
 }
 
+
+Renderer::Renderer()
+{
+    Texture base;
+    base.Bind();
+}
 
 void Renderer::Clear() const
 {

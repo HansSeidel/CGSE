@@ -1,8 +1,8 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.10 (gitTag: v0.10) <br>
-> *Git commit message:* Learning - Batch Rendering <br>
+> *Version:* 1.0 (gitTag: v1.0) <br>
+> *Git commit message:* Project - Initial commit <br>
 > *Version Date:* 18.01.2022 
 
 
@@ -93,9 +93,8 @@ Not all Batch Render tests worked as espected. So at this commit their are still
 **(v1.0)** - At this point, the actual final project started. 
 The structure of the project has been adjusted into 6 main section:
 - /res -> containing all assets of the project, as well as the shaders
-- /src -> Contains the actual game logic
+- /src -> Contains the actual game logic as well as the vendor file
 - /tests -> Contains the test framework as well as the tests
-- /vendor -> Contains additional libraries
 - /engineBase -> Contains the base classes of the engine written befor.
 - /engineExtension -> Contains classes written by the author to simplyfy the project development.
 

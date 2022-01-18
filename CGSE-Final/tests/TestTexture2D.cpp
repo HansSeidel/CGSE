@@ -61,7 +61,7 @@ namespace test {
 	{
 		Renderer renderer;
 
-		m_Texture->Bind(); //H-Optional Slot
+		m_Texture->Bind(1); //H-Optional Slot
 
 
 		{

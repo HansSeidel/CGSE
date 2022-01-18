@@ -86,21 +86,25 @@ namespace test {
 		target->TexCoords = {0.0f, 0.0f};
 		target->Color = {0.18f, 0.6f, 0.9f, 1.0f};
 		target->TexID = textureID;
+		target++;
 
 		target->Position = {position.x + size, position.y, position.z};
 		target->TexCoords = { 1.0f,	0.0f };
 		target->Color = { 0.18f, 0.6f, 0.9f, 1.0f };
 		target->TexID = textureID;
+		target++;
 
 		target->Position = { position.x + size, position.y + size, position.z };;
 		target->TexCoords = { 1.0f,	1.0f };
 		target->Color = { 0.18f, 0.6f, 0.9f, 1.0f };
 		target->TexID = textureID;
+		target++;
 
 		target->Position = { position.x, position.y + size, position.z };;
 		target->TexCoords = { 0.0f,	1.0f };
 		target->Color = { 0.18f, 0.6f, 0.9f, 1.0f };
 		target->TexID = textureID;
+		target++;
 
 		return target;
 	}
