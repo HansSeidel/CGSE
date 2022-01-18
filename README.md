@@ -2,8 +2,8 @@
 
 > ***Author:*** Hans Seidel (if20b211) <br>
 > *Version:* 0.10 (gitTag: v0.10) <br>
-> *Git commit message:* Learning - Implementing Batch Rendering as tests <br>
-> *Version Date:* 15.01.2022 
+> *Git commit message:* Learning - Batch Rendering <br>
+> *Version Date:* 18.01.2022 
 
 
 ##Description
@@ -66,8 +66,7 @@ The second part descripes the progress of the final project.
 <br>In git the first part is below version 1.0. 
 
 ### Repetition and consolidation (v0.*)
-**(v0.0)** -
-At the beginning of the project, the setup has been created. In order to check if everything is running 
+**(v0.0)** - At the beginning of the project, the setup has been created. In order to check if everything is running 
 correct, a simple triangle was created.
 **(v0.1)** - The next step was to write our own shaders and get the program running again. 
 Within the fragment shader we defined the color of the triangle. 
@@ -86,5 +85,9 @@ With little adjustments inside the fragment shader, the texture could be loaded 
 which made it possible to add the model-, view-, projection-matrices. 
 **(v0.9)** - In this tag the IAmGui Lib has been added. This allowes to work inside the scene and manipulate specific values.
 It also has been created a little test-framework with two tests. 
-**(v0.10)** This test-framework was expanded by multiple Batch rendering Tests
+**(v0.10)** This test-framework was expanded by multiple Batch rendering Tests. 
+Not all Batch Render tests worked as espected. So at this commit their are still some bugs 
+(Especially with the tests: "Batch Rendering Texture" and "Batch Rendering Dynamic")
+
+### Project initialisation (v1.*)
 
