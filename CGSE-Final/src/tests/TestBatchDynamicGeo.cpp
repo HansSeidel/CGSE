@@ -20,14 +20,26 @@ struct Vertex {
 namespace test {
 
 
-	TestBatchDynamicGeo::TestBatchDynamicGeo() : m_Translation0(0,0,0), m_TranslationA(0.0, 0, 0), m_TranslationB(0,0,0),
+	TestBatchDynamicGeo::TestBatchDynamicGeo() : m_Translation0(-1.5,0,-1), m_TranslationA(0, 0, 0), m_TranslationB(2,0,0),
 		m_Proj(glm::perspective(35.0f, 1.0f, 0.1f, 100.0f)), m_View(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)))
 	{
+		const size_t maxQuadCount = 500;
+		const size_t maxVertexCount = maxQuadCount * 4;
+		const size_t maxIndexCount = maxQuadCount * 6;
 
-		unsigned int indices[] = {
-			0, 1, 2, 2, 3, 0,
-			4, 5, 6, 6, 7, 4
-		};
+		unsigned int indices[maxIndexCount];
+		unsigned int offset = 0;
+		for (size_t i = 0; i < maxIndexCount;i += 6) {
+			indices[i + 0] = offset + 0;
+			indices[i + 1] = offset + 1;
+			indices[i + 2] = offset + 2;
+
+			indices[i + 3] = offset + 2;
+			indices[i + 4] = offset + 3;
+			indices[i + 5] = offset + 0;
+
+			offset += 4;
+		}
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -41,12 +53,12 @@ namespace test {
 		layout.Push<float>(4);
 		layout.Push<float>(1);
 
-		m_VertexBuffer = std::make_unique<VertexBuffer>(nullptr, 8 * layout.GetStride() * 1000, GL_DYNAMIC_DRAW);
+		m_VertexBuffer = std::make_unique<VertexBuffer>(nullptr, maxVertexCount * layout.GetStride(), GL_DYNAMIC_DRAW);
 
 		m_VAO = std::make_unique<VertexArray>();
 		m_VAO->AddBuffer(*m_VertexBuffer, layout);
 
-		m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 12);
+		m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 0);
 
 
 		m_Shader = std::make_unique<Shader>("res/shaders/Basic.shader");
@@ -66,57 +78,61 @@ namespace test {
 	{
 	}
 
-	static std::array<Vertex, 4> CreateQuad(glm::vec3 position, float textureID) {
+	static Vertex* CreateQuad(Vertex* target, glm::vec3 position, float textureID) {
 
 		float size = 1.0f;
 
-		Vertex v0;
-		v0.Position = position;
-		v0.TexCoords = {0.0f, 0.0f};
-		v0.Color = {0.18f, 0.6f, 0.9f, 1.0f};
-		v0.TexID = textureID;
+		target->Position = position;
+		target->TexCoords = {0.0f, 0.0f};
+		target->Color = {0.18f, 0.6f, 0.9f, 1.0f};
+		target->TexID = textureID;
 
-		Vertex v1;
-		v1.Position = {position.x + size, position.y, position.z};
-		v1.TexCoords = { 1.0f,	0.0f };
-		v1.Color = { 0.18f, 0.6f, 0.9f, 1.0f };
-		v1.TexID = textureID;
+		target->Position = {position.x + size, position.y, position.z};
+		target->TexCoords = { 1.0f,	0.0f };
+		target->Color = { 0.18f, 0.6f, 0.9f, 1.0f };
+		target->TexID = textureID;
 
-		Vertex v2;
-		v2.Position = { position.x + size, position.y + size, position.z };;
-		v2.TexCoords = { 1.0f,	1.0f };
-		v2.Color = { 0.18f, 0.6f, 0.9f, 1.0f };
-		v2.TexID = textureID;
+		target->Position = { position.x + size, position.y + size, position.z };;
+		target->TexCoords = { 1.0f,	1.0f };
+		target->Color = { 0.18f, 0.6f, 0.9f, 1.0f };
+		target->TexID = textureID;
 
-		Vertex v3;
-		v3.Position = { position.x, position.y + size, position.z };;
-		v3.TexCoords = { 0.0f,	1.0f };
-		v3.Color = { 0.18f, 0.6f, 0.9f, 1.0f };
-		v3.TexID = textureID;
+		target->Position = { position.x, position.y + size, position.z };;
+		target->TexCoords = { 0.0f,	1.0f };
+		target->Color = { 0.18f, 0.6f, 0.9f, 1.0f };
+		target->TexID = textureID;
 
-		return { v0,v1,v2,v3 };
+		return target;
 	}
 
 	void TestBatchDynamicGeo::OnRender()
 	{
 		Renderer renderer;
-
+		m_IndexBuffer->ClearCount();
 		//Set dynamic vertex Buffer
+		std::array<Vertex, 200> vertices;
+		Vertex* buffer = vertices.data();
+		for (int y = 0; y < 5; y++) {
+			for (int x = -3; x < 2; x++) {
+				buffer = CreateQuad(buffer, glm::vec3(x, y, -3),(x + y) % 2);
+				m_IndexBuffer->AddCount(6);
+			}
+		}
 
-		auto q0 = CreateQuad(m_TranslationA, 0.0f);
-		auto q1 = CreateQuad(m_TranslationB, 1.0f);
+		buffer = CreateQuad(buffer, m_TranslationA, 0.0f);
+		buffer = CreateQuad(buffer, m_TranslationB, 1.0f);
+		m_IndexBuffer->AddCount(12);
 
-		Vertex positions[8];
-		memcpy(positions, q0.data(), q0.size() * sizeof(Vertex));
-		memcpy(positions + q0.size(), q1.data(), q1.size() * sizeof(Vertex));
-
+		
 		m_VertexBuffer->Bind();
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positions), positions);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex), vertices.data());
 
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), m_Translation0);
 		glm::mat4 mvp = m_Proj * m_View * model;
 		m_Shader->Bind();
 		m_Shader->setUniformMat4f("u_MVP", mvp);
+
+		m_IndexBuffer->ReloadBufferDynamic();
 		renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
 
 

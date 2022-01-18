@@ -1,8 +1,8 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 0.9 (gitTag: v0.9) <br>
-> *Git commit message:* Learning - Setting up a testFramework <br>
+> *Version:* 0.10 (gitTag: v0.10) <br>
+> *Git commit message:* Learning - Implementing Batch Rendering as tests <br>
 > *Version Date:* 15.01.2022 
 
 
@@ -86,4 +86,5 @@ With little adjustments inside the fragment shader, the texture could be loaded 
 which made it possible to add the model-, view-, projection-matrices. 
 **(v0.9)** - In this tag the IAmGui Lib has been added. This allowes to work inside the scene and manipulate specific values.
 It also has been created a little test-framework with two tests. 
+**(v0.10)** This test-framework was expanded by multiple Batch rendering Tests
 
