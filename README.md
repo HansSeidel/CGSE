@@ -57,13 +57,13 @@ The original assignment description is shown at the following link: [Project Sub
 
 
 ## Documentation
-The documentation is split into two parts. 
+The documentation is split into three parts. 
 The first part descripes the project(s) i used to repeat and deepen my knowlegde about openGL.
 This part follows the steps of [this](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&index=1) tutorial-series.
 <br>
 The second part descripes the progress of the final project.
 
-<br>In git the first part is below version 1.0. 
+<br>In git the first part is below version 1.0 and the second part is below version 2.0
 
 ### Repetition and consolidation (v0.*)
 **(v0.0)** - At the beginning of the project, the setup has been created. In order to check if everything is running 
@@ -89,5 +89,15 @@ It also has been created a little test-framework with two tests.
 Not all Batch Render tests worked as espected. So at this commit their are still some bugs 
 (Especially with the tests: "Batch Rendering Texture" and "Batch Rendering Dynamic")
 
-### Project initialisation (v1.*)
+### Final Project  (v1.*)
+**(v1.0)** - At this point, the actual final project started. 
+The structure of the project has been adjusted into 6 main section:
+- /res -> containing all assets of the project, as well as the shaders
+- /src -> Contains the actual game logic
+- /tests -> Contains the test framework as well as the tests
+- /vendor -> Contains additional libraries
+- /engineBase -> Contains the base classes of the engine written befor.
+- /engineExtension -> Contains classes written by the author to simplyfy the project development.
+
+After a test run the final project has been successfully initialised.
 

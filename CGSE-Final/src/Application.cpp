@@ -19,11 +19,11 @@
 #include "imgui/imgui_impl_glfw_gl3.h"
 //H-IAMGUI TODO: Delete later if possible ################## 
 //H-Tests: #################################################
-#include "tests/TestClearColor.h"
-#include "tests/TestTexture2D.h"
-#include "tests/TestColorBatch.h"
-#include "tests/TestTextureBatch.h"
-#include "tests/TestBatchDynamicGeo.h"
+#include "TestClearColor.h"
+#include "TestTexture2D.h"
+#include "TestColorBatch.h"
+#include "TestTextureBatch.h"
+#include "TestBatchDynamicGeo.h"
 //H-Tests: #################################################
 
 int main(void)
