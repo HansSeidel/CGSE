@@ -33,10 +33,10 @@ namespace extension {
 			target->Position = { position.x - width, position.y, position.z };
 			target++;
 
-			target->Position = { position.x - width, position.y, position.z + height };
+			target->Position = { position.x - width, position.y, position.z - height };
 			target++;
 
-			target->Position = { position.x, position.y, position.z + height };
+			target->Position = { position.x, position.y, position.z - height };
 			target++;
 
 			return target;
