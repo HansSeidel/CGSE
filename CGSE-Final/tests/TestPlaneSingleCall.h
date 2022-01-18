@@ -22,7 +22,8 @@ namespace test {
 	private:
 		std::unique_ptr<Shader> m_Shader;
 		std::unique_ptr<extension::primitves::Plane> m_Plane;
-		std::unique_ptr<Texture> m_Texture;
+		std::unique_ptr<Texture> m_Texture1;
+		std::unique_ptr<Texture> m_Texture2;
 
 
 		glm::vec3 m_ViewTranslation;

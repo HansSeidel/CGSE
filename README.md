@@ -2,7 +2,7 @@
 
 > ***Author:*** Hans Seidel (if20b211) <br>
 > *Version:* 1.1 (gitTag: v1.1) <br>
-> *Git commit message:* Project - Added Plane Class <br>
+> *Git commit message:* Project - Finished Plane Class <br>
 > *Version Date:* 18.01.2022 
 
 
