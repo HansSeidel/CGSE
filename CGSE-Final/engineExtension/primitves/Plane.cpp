@@ -26,14 +26,14 @@ namespace extension {
 		{
 		}
 		
-		Vertex* Plane::FillVerticesPosition(Vertex* target,glm::vec3 position, float width, float height) {
+		Vertex* Plane::FillVerticesPosition(Vertex* target, glm::vec3 position, float width, float height) {
 			target->Position = position;
 			target++;
 
-			target->Position = { position.x + width, position.y, position.z };
+			target->Position = { position.x - width, position.y, position.z };
 			target++;
 
-			target->Position = { position.x + width, position.y, position.z + height };
+			target->Position = { position.x - width, position.y, position.z + height };
 			target++;
 
 			target->Position = { position.x, position.y, position.z + height };
@@ -85,17 +85,22 @@ namespace extension {
 			m_Indicies[index] = indexValue;
 		}
 
-		void Plane::SetupSingleCall(VertexBuffer& vb, VertexArray& va, IndexBuffer& ib, Shader& shader) {
-			vb.InitVertexBufferWithoutConstructor(m_Vertices.data(), 4 * m_Layout.GetStride());
-			va.AddBuffer(vb, m_Layout);
-			ib.InitIndexBufferWithoutConstructor(m_Indicies.data(), 6);
-			shader.InitShaderWithoutConstructor("res/shaders/Basic.shader");
-			
+		void Plane::SetupSingleCall() {
+			m_Va = std::make_unique<VertexArray>();
+			m_Vb = std::make_unique<VertexBuffer>(m_Vertices.data(), sizeof(m_Vertices));
+			m_Ib = std::make_unique<IndexBuffer>(m_Indicies.data(), m_Indicies.size());
+
+			m_Vb->Bind();
+			m_Va->AddBuffer(*m_Vb, m_Layout);			
 		}
 
-		void Plane::DrawSingleCall(Renderer& renderer, VertexArray& va, IndexBuffer& ib, Shader& shader) {
-			shader.Bind();
-			renderer.Draw(va, ib, shader);
+		void Plane::DrawSingleCall(Renderer& renderer, Shader& shader) {
+			m_Va->Bind();
+			m_Ib->Bind();
+			renderer.Draw(*m_Va, *m_Ib, shader);
+			m_Va->UnBind();
+			m_Ib->UnBind();
+			m_Vb->UnBind();
 		}
 
 	}

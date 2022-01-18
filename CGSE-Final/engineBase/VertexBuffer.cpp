@@ -20,21 +20,9 @@ VertexBuffer::VertexBuffer(const void* data, unsigned int size)
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 }
 
-VertexBuffer::VertexBuffer() : m_RendererID(0)
-{
-    std::cout << "Warning. You are using uninitialised VertexBuffer. You must call InitVertexBuffer later" << std::endl;
-}
-
 VertexBuffer::~VertexBuffer()
 {
     glDeleteBuffers(1, &m_RendererID);
-}
-
-void VertexBuffer::InitVertexBufferWithoutConstructor(const void* data, unsigned int size, unsigned int drawType)
-{
-    glGenBuffers(1, &m_RendererID);
-    glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-    glBufferData(GL_ARRAY_BUFFER, size, data, drawType);
 }
 
 void VertexBuffer::Bind() const

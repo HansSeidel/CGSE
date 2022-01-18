@@ -8,17 +8,16 @@
 
 namespace test {
 
-	TestPlaneSingleCall::TestPlaneSingleCall() : m_Proj(glm::ortho(-2.0f, 2.0f, -1.0f, 1.0f, -1.0f, 1.0f)), m_ViewTranslation(glm::vec3(0, 0, 0))
+	TestPlaneSingleCall::TestPlaneSingleCall() : m_Proj(glm::perspective(35.0f, 1.0f, 0.1f, 100.0f)), m_ViewTranslation(glm::vec3(0, 0, 0))
 	{
 		glm::vec3 position = { 0.0,0.0,0.0 };
 		m_Plane = std::make_unique<extension::primitves::Plane>(position, 10.0f, 10.0f);
+
+		m_Shader = std::make_unique<Shader>("res/shaders/Basic.shader");
 		
-		m_Va = std::make_unique<VertexArray>();
-		m_Vb = std::make_unique<VertexBuffer>();
-		m_Ib = std::make_unique<IndexBuffer>();
-		m_Shader = std::make_unique<Shader>();
 		m_Plane->SetPlaneColor({ 0.2f,0.2f,0.7f,1.0f });
-		m_Plane->SetupSingleCall(*m_Vb, *m_Va, *m_Ib, *m_Shader);
+		m_Plane->SetupSingleCall();
+
 	}
 	TestPlaneSingleCall::~TestPlaneSingleCall()
 	{
@@ -29,12 +28,12 @@ namespace test {
 	void TestPlaneSingleCall::OnRender()
 	{
 		Renderer renderer;
-
-
 		{
 			glm::mat4 view = glm::translate(glm::mat4(1.0f), m_ViewTranslation);
 			glm::mat4 mvp = m_Proj * view;
-			m_Plane->DrawSingleCall(renderer,*m_Va,*m_Ib,*m_Shader);
+			m_Shader->Bind();
+			m_Shader->setUniformMat4f("u_MVP", mvp);
+			m_Plane->DrawSingleCall(renderer, *m_Shader);
 		}
 
 

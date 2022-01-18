@@ -7,10 +7,8 @@ private:
 	const unsigned int* m_Data;
 public:
 	IndexBuffer(const unsigned int* data, unsigned int count);
-	IndexBuffer();
 	~IndexBuffer();
 
-	void InitIndexBufferWithoutConstructor(const unsigned int* data, unsigned int count);
 
 	void Bind() const;
 	void UnBind() const;

@@ -13,21 +13,9 @@ Shader::Shader(const std::string& filepath) : m_FilePath(filepath)
     m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
 }
 
-Shader::Shader() : m_FilePath(""), m_RendererID(0)
-{
-    std::cout << "Warning. You are using uninitialised Shader. You must call InitVertexBuffer later" << std::endl;
-}
-
 Shader::~Shader()
 {
     glDeleteProgram(m_RendererID);
-}
-
-void Shader::InitShaderWithoutConstructor(const std::string& filepath)
-{
-    m_FilePath = filepath;
-    ShaderProgramSource source = ParseShader(filepath);
-    m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
 }
 
 /*H-Reads in the shader file*/
