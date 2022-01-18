@@ -18,10 +18,7 @@ bool GLLogCall(const char* function, const char* file, int line)
 
 
 Renderer::Renderer()
-{
-    Texture base;
-    base.Bind();
-}
+{}
 
 void Renderer::Clear() const
 {

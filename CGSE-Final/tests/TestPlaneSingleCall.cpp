@@ -28,13 +28,14 @@ namespace test {
 	void TestPlaneSingleCall::OnRender()
 	{
 		Renderer renderer;
-		{
-			glm::mat4 view = glm::translate(glm::mat4(1.0f), m_ViewTranslation);
-			glm::mat4 mvp = m_Proj * view;
-			m_Shader->Bind();
-			m_Shader->setUniformMat4f("u_MVP", mvp);
-			m_Plane->DrawSingleCall(renderer, *m_Shader);
-		}
+		Texture base;
+		base.Bind();
+
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), m_ViewTranslation);
+		glm::mat4 mvp = m_Proj * view;
+		m_Shader->Bind();
+		m_Shader->setUniformMat4f("u_MVP", mvp);
+		m_Plane->DrawSingleCall(renderer, *m_Shader);
 
 
 

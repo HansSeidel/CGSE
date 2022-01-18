@@ -25,7 +25,7 @@ Texture::Texture(const std::string& path) : m_TextureID(0), m_FilePath(path), m_
 
 Texture::Texture() : m_TextureID(0), m_FilePath("defaultTexture"), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
 {
-	glGenTextures(1, &m_TextureID);
+	glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

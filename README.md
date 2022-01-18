@@ -1,8 +1,8 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 1.0 (gitTag: v1.0) <br>
-> *Git commit message:* Project - Initial commit <br>
+> *Version:* 1.1 (gitTag: v1.1) <br>
+> *Git commit message:* Project - Added Plane Class <br>
 > *Version Date:* 18.01.2022 
 
 
@@ -99,4 +99,8 @@ The structure of the project has been adjusted into 6 main section:
 - /engineExtension -> Contains classes written by the author to simplyfy the project development.
 
 After a test run the final project has been successfully initialised.
+
+**(v1.1)** - A basic shape class for a plane has been added. This class contains the DrawSingleCall method.
+This method may get removed in the future because it's inefficent. 
+Except of the methods DrawSingleCall and SetupSingleCall, everything is manage CPU-Sided.
 
