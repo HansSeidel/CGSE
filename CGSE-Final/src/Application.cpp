@@ -16,7 +16,7 @@
 #include "primitves/Plane.h"
 //H-PlayerController
 #include "PlayerController.h"
-
+#include "BatchGroup.h"
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -37,65 +37,82 @@ glm::vec3 v_MouseFront;
 int main(void)
 {
     GLFWwindow* window;
-
     /* Initialize the library */
     if (!glfwInit())
         return -1;
-
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Final Project", NULL, NULL);
-    
-
     if (!window)
     {
         glfwTerminate();
         return -1;
     }
-
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
     /* Setting up dynamic resizing */
     glfwSetFramebufferSizeCallback(window, extension::PlayerController::Framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
-    //H-Initialise PlayerController and assigne callback function
-    //glfwSetKeyCallback(window, extension::PlayerController::KeyBoardCallBack);
-    
     glfwSwapInterval(1);
-
-    /* H-Initialize glew Init*/
+    /* H - Initialize glew Init*/
     glewInit();
-
-    //H- Initialize PlayerController. Shell only be instanced once.
+    /* H - Initialize PlayerController.Shell only be instanced once. */
     extension::PlayerController playerController = extension::PlayerController();
-    //extension::PlayerController::SetPlayerController(playerController);
-
-    std::cout << glGetString(GL_VERSION) << std::endl;
+    /* H - Setting up projection martix */
     glm::mat4 m_Proj(glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f));
-
+    
     // Allow Blending (Blending includes transparency)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //SetBackgroundColor
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
+    //Initialising renderer
     Renderer renderer;
 
-    glm::vec3 position = { 0.0,-2.0, 0.0 };
-    extension::primitves::Plane m_Plane(position, 10.0f, 10.0f);
+    //Drawing primitives
+    extension::primitves::Plane m_Plane1({ 0.0,-2.0, 0.0 }, 10.0f, 10.0f);
+    extension::primitves::Plane m_Plane2({ 0.0,7.0, 0.0 }, 10.0f, 10.0f);
+    extension::primitves::Plane m_Plane3({ 10.0,-2.0, 0.0 }, 10.0f, 10.0f);
 
+    m_Plane1.SetPlaneColor({ 0.2f,0.2f,0.7f,1.0f });
+    m_Plane2.SetPlaneColor({ 0.6f,0.2f,0.7f,1.0f });
+    m_Plane3.SetPlaneColor({ 0.2f,0.9f,0.7f,1.0f });
+
+    //Initialising BatchGroup
+    extension::BatchGroup group = extension::BatchGroup(m_Plane1.GetVerticeCount() + m_Plane2.GetVerticeCount() + m_Plane3.GetVerticeCount());
+
+    //Adding primitives to group
+    group.Push(&m_Plane1); //This is temporally holding the planes and extrecting the data.
+    group.Push(&m_Plane2);
+    group.Push(&m_Plane3);
+
+    //Initialising and setting up the Buffers
+    VertexBuffer m_VBO = VertexBuffer(group.GetVertices(),group.GetGroupSize());
+    m_VBO.Bind();
+    VertexArray m_VAO = VertexArray();
+    m_VAO.AddBuffer(m_VBO, group.GetLayout());
+
+    //Initialising IndexBuffer
+    IndexBuffer m_IBO = IndexBuffer(group.GetIndicies(), group.GetIndiciesCount());
+
+    //Initialising shader
     Shader m_Shader("res/shaders/Basic.shader");
     m_Shader.Bind();
-    m_Plane.SetPlaneColor({ 0.2f,0.2f,0.7f,1.0f });
-    m_Plane.SetupSingleCall();
 
-    Texture m_Texture1("");
+    //Creating Textures
+    Texture base("");
+    base.Bind();
+
     Texture m_Texture2("res/textures/light_fine_wood_pbr_18_13_diffuse.jpg");
-    m_Texture1.Bind();
     m_Texture2.Bind(1);
 
     int sampler[8];
     for (int i = 0; i < 8; i++)
         sampler[i] = i;
     m_Shader.setUniform1iv("u_TextureArr", 8, sampler);
+
+
+
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -107,16 +124,22 @@ int main(void)
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        //View matrix
         playerController.ProcessInput(window,deltaTime);
-        glm::mat4 view = playerController.GetView();
+        glm::mat4 m_View = playerController.GetView();
         playerController.UpdateFront(glm::normalize(v_MouseFront));
 
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+        //ModelTranslation
+        glm::mat4 m_Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+        
 
-        glm::mat4 mvp = m_Proj * view * model;
         m_Shader.Bind();
-        m_Shader.setUniformMat4f("u_MVP", mvp);
-        m_Plane.DrawSingleCall(renderer, m_Shader);
+        m_Shader.setUniformMat4f("u_Model", m_Model);
+        m_Shader.setUniformMat4f("u_View", m_View);
+        m_Shader.setUniformMat4f("u_Projection", m_Proj);
+        m_VBO.Bind();
+        m_IBO.Bind();
+        renderer.Draw(m_VAO, m_IBO,m_Shader);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

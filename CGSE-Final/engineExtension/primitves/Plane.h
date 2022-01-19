@@ -3,12 +3,11 @@
 #include "Renderer.h"
 #include "VertexBufferLayout.h"
 
-#include <memory>
 #include <array>
 
 namespace extension {
 	namespace primitves {
-		class Plane : PrimitveShape {
+		class Plane : public PrimitveShape {
 		private:
 			VertexBufferLayout m_Layout;
 			std::array<unsigned int, 6> m_Indicies;
@@ -17,7 +16,6 @@ namespace extension {
 		public:
 			Plane(glm::vec3 position, float width, float height, float textureSlot = 0);
 			Plane(glm::vec3 position, float width, float height, unsigned char direction, float textureSlot = 0);
-			Plane(const Plane& plane);
 			~Plane();
 			void SetVertexPosition(int index, glm::vec3 position);
 			void SetUV(glm::vec2 v0 = { 0,0 }, glm::vec2 v1 = { 0,1 }, glm::vec2 v2 = { 1,1 }, glm::vec2 v3 = { 1,0 });
@@ -26,17 +24,13 @@ namespace extension {
 			void BindTextureSlot(float slot = 0);
 			void SetIndicies();
 			void SetIndexByIndex(int index, unsigned int indexValue);
-			void SetupSingleCall();
-			void DrawSingleCall(Renderer& renderer, Shader& shader);
 			inline std::array<Vertex, 4> GetVerticies() const { return m_Vertices; };
-			inline int GetVerticeCount() const { return 4; };
-			inline VertexBufferLayout GetLayout() const { return m_Layout; };
 			inline std::array<unsigned int, 6> GetIndicies() const { return m_Indicies; };
 
-		private:
-			std::unique_ptr<VertexArray> m_Va;
-			std::unique_ptr<IndexBuffer> m_Ib;
-			std::unique_ptr<VertexBuffer> m_Vb;
+			VertexBufferLayout GetLayout() { return m_Layout; };
+			int GetVerticeCount() { return 4; };
+			std::vector<Vertex> GetVerticiesAsVector() { return std::vector<Vertex>(m_Vertices.begin(),m_Vertices.end()); };
+			std::vector<unsigned int> GetIndiciesAsVector() { return std::vector<unsigned int>(m_Indicies.begin(), m_Indicies.end()); };
 		};
 	}
 }

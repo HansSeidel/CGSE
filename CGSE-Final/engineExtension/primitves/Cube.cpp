@@ -133,23 +133,5 @@ namespace extension {
 		void Cube::DestroyPlanes() {
 			m_Planes.clear();
 		}
-
-		void Cube::SetupSingleCall() {
-			m_Va = std::make_unique<VertexArray>();
-			m_Vb = std::make_unique<VertexBuffer>(m_Vertices.data(), sizeof(m_Vertices));
-			m_Ib = std::make_unique<IndexBuffer>(m_Indicies.data(), m_Indicies.size());
-
-			m_Vb->Bind();
-			m_Va->AddBuffer(*m_Vb, m_Layout);
-		}
-
-		void Cube::DrawSingleCall(Renderer& renderer, Shader& shader) {
-			m_Va->Bind();
-			m_Ib->Bind();
-			renderer.Draw(*m_Va, *m_Ib, shader);
-			m_Va->UnBind();
-			m_Ib->UnBind();
-			m_Vb->UnBind();
-		}
 	}
 }

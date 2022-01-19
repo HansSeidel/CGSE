@@ -11,10 +11,12 @@ out vec2 v_TexCoord;
 out float v_TexIndex;
 out vec4 v_Color;
 
-uniform mat4 u_MVP;
+uniform mat4 u_Model;
+uniform mat4 u_View;
+uniform mat4 u_Projection;
 
 void main(){
-	gl_Position = u_MVP * position;
+	gl_Position = u_Model * u_View * u_Projection * position;
 	v_TexCoord = a_texCoord;
 	v_Color = a_Color;
 	v_TexIndex = a_TexIndex;
@@ -43,5 +45,5 @@ void main(){
 	color = texture(u_TextureArr[index], v_TexCoord) * v_Color;
 	
 	//H-Output tex Index as color (Testing)
-	//color = vec4(v_TexIndex, v_TexIndex, v_TexIndex, 1.0);
+	color = vec4(v_TexIndex, v_TexIndex, v_TexIndex, 1.0);
 };
