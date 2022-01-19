@@ -25,6 +25,7 @@
 #include "TestTextureBatch.h"
 #include "TestBatchDynamicGeo.h"
 #include "TestPlaneSingleCall.h"
+#include "TestCubeSingleCall.h"
 //H-Tests: #################################################
 
 int main(void)
@@ -79,6 +80,7 @@ int main(void)
         testMenu->RegisterTest<test::TestTextureBatch>("Batch Rendering Texture");
         testMenu->RegisterTest<test::TestBatchDynamicGeo>("Batch Rendering Dynamic");
         testMenu->RegisterTest<test::TestPlaneSingleCall>("Plane Single Call");
+        testMenu->RegisterTest<test::TestCubeSingleCall>("Cube Single Call");
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))

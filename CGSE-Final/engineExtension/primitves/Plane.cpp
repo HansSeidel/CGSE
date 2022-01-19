@@ -22,11 +22,116 @@ namespace extension {
 			SetIndicies();
 		}
 
+		Plane::Plane(glm::vec3 position, float width, float height, unsigned char direction, float textureSlot)
+		{
+			Vertex* buffer = m_Vertices.data();
+			buffer = FillVerticesPosition(buffer, position, width, height, direction);
+			m_Layout.Push<float>(3);
+			SetUV();
+			m_Layout.Push<float>(2);
+			SetPlaneColor();
+			m_Layout.Push<float>(4);
+			BindTextureSlot(textureSlot);
+			m_Layout.Push<float>(1);
+			SetIndicies();
+		}
+
+		Plane::Plane(const Plane& plane) : m_Layout(plane.GetLayout()), m_Indicies(plane.GetIndicies()), m_Vertices(plane.GetVerticies())
+		{
+		}
+
 		Plane::~Plane()
 		{
 		}
 		
-		Vertex* Plane::FillVerticesPosition(Vertex* target, glm::vec3 position, float width, float height) {
+		Vertex* Plane::FillVerticesPosition(Vertex* target, glm::vec3 position, float width, float height, unsigned char direction) {
+			switch (direction)
+			{
+			case extension::FRONT:
+				target->Position = position;
+				target++;
+
+				target->Position = { position.x - width, position.y, position.z };
+				target++;
+
+				target->Position = { position.x - width, position.y, position.z - height };
+				target++;
+
+				target->Position = { position.x, position.y, position.z - height };
+				target++;
+
+				return target;
+			case extension::BACK:
+				target->Position = position;
+				target++;
+
+				target->Position = { position.x - width, position.y, position.z };
+				target++;
+
+				target->Position = { position.x - width, position.y, position.z + height };
+				target++;
+
+				target->Position = { position.x, position.y, position.z + height };
+				target++;
+
+				return target;
+			case extension::UP:
+				target->Position = position;
+				target++;
+
+				target->Position = { position.x - width, position.y, position.z };
+				target++;
+
+				target->Position = { position.x - width, position.y + height, position.z };
+				target++;
+
+				target->Position = { position.x, position.y + height, position.z };
+				target++;
+
+				return target;
+			case extension::DOWN:
+				target->Position = position;
+				target++;
+
+				target->Position = { position.x - width, position.y, position.z };
+				target++;
+
+				target->Position = { position.x - width, position.y - height, position.z };
+				target++;
+
+				target->Position = { position.x, position.y - height, position.z };
+				target++;
+
+				return target;
+			case extension::LEFT:
+				target->Position = position;
+				target++;
+
+				target->Position = { position.x, position.y, position.z + width };
+				target++;
+
+				target->Position = { position.x + height, position.y, position.z + width };
+				target++;
+
+				target->Position = { position.x + height, position.y, position.z };
+				target++;
+
+				return target;
+			case extension::RIGHT:
+				target->Position = position;
+				target++;
+
+				target->Position = { position.x, position.y, position.z + width };
+				target++;
+
+				target->Position = { position.x - height, position.y, position.z + width };
+				target++;
+
+				target->Position = { position.x - height, position.y, position.z };
+				target++;
+
+				return target;
+			}
 			target->Position = position;
 			target++;
 
@@ -40,6 +145,11 @@ namespace extension {
 			target++;
 
 			return target;
+			
+		}
+
+		void Plane::SetVertexPosition(int index, glm::vec3 position) {
+			m_Vertices[index].Position = position;
 		}
 
 		void Plane::SetUV(glm::vec2 v0, glm::vec2 v1, glm::vec2 v2, glm::vec2 v3)

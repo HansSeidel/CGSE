@@ -40,7 +40,6 @@ void main(){
 	//As far as i understood, sampler2D also stores the pixelInformation
 	//The multiply color works the following way: Texture slot 0 is reserved to be a white texture.
 	//If a texture is used, the color mus be set to white. This way, it can be determined, which to use. (Texture or Color)
-	//NOT IMPLEMENTED YET
 	color = texture(u_TextureArr[index], v_TexCoord) * v_Color;
 	
 	//H-Output tex Index as color (Testing)
