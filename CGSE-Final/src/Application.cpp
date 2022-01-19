@@ -13,20 +13,17 @@
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "primitves/Plane.h"
+//H-PlayerController
+#include "PlayerController.h"
 
-//H-IAMGUI TODO: Delete later if possible ################## 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw_gl3.h"
-//H-IAMGUI TODO: Delete later if possible ################## 
-//H-Tests: #################################################
-#include "TestClearColor.h"
-#include "TestTexture2D.h"
-#include "TestColorBatch.h"
-#include "TestTextureBatch.h"
-#include "TestBatchDynamicGeo.h"
-#include "TestPlaneSingleCall.h"
-#include "TestCubeSingleCall.h"
-//H-Tests: #################################################
+// settings
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+// timing
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
 
 int main(void)
 {
@@ -37,7 +34,9 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Final Project", NULL, NULL);
+    
+
     if (!window)
     {
         glfwTerminate();
@@ -46,83 +45,74 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
-
+    /* Setting up dynamic resizing */
+    glfwSetFramebufferSizeCallback(window, extension::PlayerController::Framebuffer_size_callback);
+    //H-Initialise PlayerController and assigne callback function
+    //glfwSetKeyCallback(window, extension::PlayerController::KeyBoardCallBack);
+    
     glfwSwapInterval(1);
 
     /* H-Initialize glew Init*/
     glewInit();
 
+    //H- Initialize PlayerController. Shell only be instanced once.
+    extension::PlayerController playerController = extension::PlayerController();
+    //extension::PlayerController::SetPlayerController(playerController);
+
     std::cout << glGetString(GL_VERSION) << std::endl;
+    glm::mat4 m_Proj(glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f));
 
-    //H-This scope prevents an error i do not understand completly. It should also terminate the program when closing the render window.
+    // Allow Blending (Blending includes transparency)
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+
+    Renderer renderer;
+
+    glm::vec3 position = { 0.0,-2.0, 0.0 };
+    extension::primitves::Plane m_Plane(position, 10.0f, 10.0f);
+
+    Shader m_Shader("res/shaders/Basic.shader");
+    m_Shader.Bind();
+    m_Plane.SetPlaneColor({ 0.2f,0.2f,0.7f,1.0f });
+    m_Plane.SetupSingleCall();
+
+    Texture m_Texture1("");
+    Texture m_Texture2("res/textures/light_fine_wood_pbr_18_13_diffuse.jpg");
+    m_Texture1.Bind();
+    m_Texture2.Bind(1);
+
+    int sampler[8];
+    for (int i = 0; i < 8; i++)
+        sampler[i] = i;
+    m_Shader.setUniform1iv("u_TextureArr", 8, sampler);
+
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
     {
-        
-        // Allow Blending (Blending includes transparency)
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        /* Render here */
+        renderer.Clear();
 
-        Renderer renderer;
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
 
-        //H-IAMGUI TODO: Delete later if possible ################## 
-        ImGui::CreateContext();
-        ImGui_ImplGlfwGL3_Init(window, true);
-        ImGui::StyleColorsDark();
-        //H-IAMGUI TODO: Delete later if possible ################## 
+        playerController.ProcessInput(window,deltaTime);
+        glm::mat4 view = playerController.GetView();
 
-        //H-Tests: #################################################
-        test::Test* currentTest = nullptr;
-        test::TestMenu* testMenu = new test::TestMenu(currentTest);
-        currentTest = testMenu;
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
-        testMenu->RegisterTest<test::TestClearColor>("Clear Color");
-        testMenu->RegisterTest<test::TestTexure2D>("Texture Move");
-        testMenu->RegisterTest<test::TestColorBatch>("BatchRendering Colors");
-        testMenu->RegisterTest<test::TestTextureBatch>("Batch Rendering Texture");
-        testMenu->RegisterTest<test::TestBatchDynamicGeo>("Batch Rendering Dynamic");
-        testMenu->RegisterTest<test::TestPlaneSingleCall>("Plane Single Call");
-        testMenu->RegisterTest<test::TestCubeSingleCall>("Cube Single Call");
+        glm::mat4 mvp = m_Proj * view * model;
+        m_Shader.Bind();
+        m_Shader.setUniformMat4f("u_MVP", mvp);
+        m_Plane.DrawSingleCall(renderer, m_Shader);
 
-        /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(window))
-        {
-            /* Render here */
-            renderer.Clear();
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
 
-
-            //H-IAMGUI TODO: Delete later if possible ################## 
-            ImGui_ImplGlfwGL3_NewFrame();
-            //H-Tests: #################################################
-            if (currentTest) {
-                currentTest->OnUpdate(0.0f);
-                currentTest->OnRender();
-                ImGui::Begin("Test");
-                if(currentTest != testMenu && ImGui::Button("<-")) {
-                    delete currentTest;
-                    currentTest = testMenu;
-                }
-                currentTest->OnImGuiRender();
-                ImGui::End();
-            }
-            //H-Tests: #################################################
-            ImGui::Render();
-            ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
-            //H-IAMGUI TODO: Delete later if possible ################## 
-
-            /* Swap front and back buffers */
-            glfwSwapBuffers(window);
-
-            /* Poll for and process events */
-            glfwPollEvents();
-        }
-    delete currentTest;
-    if (currentTest != testMenu)
-        delete testMenu;
+        /* Poll for and process events */
+        glfwPollEvents();
     }
-
-    //H-IAMGUI TODO: Delete later if possible ################## 
-    ImGui_ImplGlfwGL3_Shutdown();
-    ImGui::DestroyContext(); 
-    //H-IAMGUI TODO: Delete later if possible ################## 
     glfwTerminate();
     return 0;
 }

@@ -125,7 +125,6 @@ namespace extension {
 				int offset = 0;
 				for (Vertex& vertex : m_Planes.at(side).GetVerticies()) {
 					m_Vertices[side*4+offset] = vertex;
-					std::cout << "TextureSlot of index::" << (side * 4 + offset) << "=" << vertex.TexID << std::endl;
 					offset++;
 				}
 			}

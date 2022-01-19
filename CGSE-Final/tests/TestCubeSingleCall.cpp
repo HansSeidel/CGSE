@@ -8,7 +8,6 @@ namespace test {
 
 	TestCubeSingleCall::TestCubeSingleCall() : m_Proj(glm::perspective(35.0f, 1.0f, 0.1f, 100.0f)), m_ViewTranslation(glm::vec3(0, 0, 0))
 	{
-
 		glm::vec3 position = { 0.0,0.0,0.0 };
 		m_Cube = std::make_unique<extension::primitves::Cube>(position,10.0f,5.0,2.5f);
 
