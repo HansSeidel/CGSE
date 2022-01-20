@@ -40,4 +40,13 @@ void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& 
     glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
+void Renderer::DrawArrays(const IndexBuffer& ib) const
+{
+
+    ib.Bind();
+
+    /*H-Draw the buffers*/
+    glDrawArrays(GL_TRIANGLES, 0, ib.GetCount());
+}
+
 

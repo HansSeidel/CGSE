@@ -45,5 +45,5 @@ void main(){
 	color = texture(u_TextureArr[index], v_TexCoord) * v_Color;
 	
 	//H-Output tex Index as color (Testing)
-	color = vec4(v_TexIndex, v_TexIndex, v_TexIndex, 1.0);
+	//color = vec4(v_TexIndex, v_TexIndex, v_TexIndex, 1.0);
 };

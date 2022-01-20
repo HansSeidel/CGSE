@@ -53,6 +53,7 @@ int main(void)
     glfwSetFramebufferSizeCallback(window, extension::PlayerController::Framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSwapInterval(1);
+    glEnable(GL_DEPTH_TEST);
     /* H - Initialize glew Init*/
     glewInit();
     /* H - Initialize PlayerController.Shell only be instanced once. */
@@ -88,7 +89,6 @@ int main(void)
 
     //Initialising and setting up the Buffers
     VertexBuffer m_VBO = VertexBuffer(group.GetVertices(),group.GetGroupSize());
-    m_VBO.Bind();
     VertexArray m_VAO = VertexArray();
     m_VAO.AddBuffer(m_VBO, group.GetLayout());
 
@@ -101,10 +101,8 @@ int main(void)
 
     //Creating Textures
     Texture base("");
-    base.Bind();
 
     Texture m_Texture2("res/textures/light_fine_wood_pbr_18_13_diffuse.jpg");
-    m_Texture2.Bind(1);
 
     int sampler[8];
     for (int i = 0; i < 8; i++)
@@ -120,6 +118,9 @@ int main(void)
         /* Render here */
         renderer.Clear();
 
+        base.Bind();
+        m_Texture2.Bind(1);
+
         float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -132,14 +133,19 @@ int main(void)
         //ModelTranslation
         glm::mat4 m_Model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
         
-
-        m_Shader.Bind();
-        m_Shader.setUniformMat4f("u_Model", m_Model);
-        m_Shader.setUniformMat4f("u_View", m_View);
-        m_Shader.setUniformMat4f("u_Projection", m_Proj);
-        m_VBO.Bind();
-        m_IBO.Bind();
-        renderer.Draw(m_VAO, m_IBO,m_Shader);
+        {
+            m_Shader.Bind();
+            m_Shader.setUniformMat4f("u_Model", m_Model);
+            m_Shader.setUniformMat4f("u_View", m_View);
+            m_Shader.setUniformMat4f("u_Projection", m_Proj);
+            m_VBO.Bind();
+            m_IBO.Bind();
+            renderer.DrawArrays(m_IBO);
+            m_Shader.UnBind();
+            m_VAO.UnBind();
+            m_IBO.UnBind();
+            m_VBO.UnBind();
+        }
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
