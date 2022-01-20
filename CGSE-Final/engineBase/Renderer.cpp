@@ -14,6 +14,7 @@ bool GLLogCall(const char* function, const char* file, int line)
 		std::cout << "[OpenGL Error in " << file << " in " << function << "] (" << line << ")";
 		return false;
 	}
+    return true;
 }
 
 
@@ -22,7 +23,7 @@ Renderer::Renderer()
 
 void Renderer::Clear() const
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    GLCall(glClear(GL_COLOR_BUFFER_BIT));
 }
 
 //H-
@@ -37,7 +38,7 @@ void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& 
     va.Bind();
 
     /*H-Draw the buffers*/
-    glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
+    GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
 }
 
 void Renderer::DrawArrays(const IndexBuffer& ib) const
@@ -46,7 +47,7 @@ void Renderer::DrawArrays(const IndexBuffer& ib) const
     ib.Bind();
 
     /*H-Draw the buffers*/
-    glDrawArrays(GL_TRIANGLES, 0, ib.GetCount());
+    GLCall(glDrawArrays(GL_TRIANGLES, 0, ib.GetCount()));
 }
 
 

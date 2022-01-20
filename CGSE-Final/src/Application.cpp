@@ -62,8 +62,8 @@ int main(void)
     glm::mat4 m_Proj(glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f));
     
     // Allow Blending (Blending includes transparency)
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GLCall(glEnable(GL_BLEND));
+    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
     //SetBackgroundColor
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
@@ -71,29 +71,27 @@ int main(void)
     Renderer renderer;
 
     //Drawing primitives
-    extension::primitves::Plane m_Plane1({ 0.0,-2.0, 0.0 }, 10.0f, 10.0f);
-    extension::primitves::Plane m_Plane2({ 0.0,7.0, 0.0 }, 10.0f, 10.0f);
-    extension::primitves::Plane m_Plane3({ 10.0,-2.0, 0.0 }, 10.0f, 10.0f);
-
-    m_Plane1.SetPlaneColor({ 0.2f,0.2f,0.7f,1.0f });
-    m_Plane2.SetPlaneColor({ 0.6f,0.2f,0.7f,1.0f });
-    m_Plane3.SetPlaneColor({ 0.2f,0.9f,0.7f,1.0f });
-
-    //Initialising BatchGroup
-    extension::BatchGroup group = extension::BatchGroup(m_Plane1.GetVerticeCount() + m_Plane2.GetVerticeCount() + m_Plane3.GetVerticeCount());
-
-    //Adding primitives to group
-    group.Push(&m_Plane1); //This is temporally holding the planes and extrecting the data.
-    group.Push(&m_Plane2);
-    group.Push(&m_Plane3);
+    float vertices[] = {
+        -0.5f,-0.5f,-1.0f,
+        0.5f,-0.5f,-1.0f,
+        0.0f,0.5f,1.0f
+    };
+    unsigned int indicies[] = {
+        0,1,2
+    };
 
     //Initialising and setting up the Buffers
-    VertexBuffer m_VBO = VertexBuffer(group.GetVertices(),group.GetGroupSize());
+    VertexBuffer m_VBO(vertices,sizeof(vertices));
     VertexArray m_VAO = VertexArray();
-    m_VAO.AddBuffer(m_VBO, group.GetLayout());
+    VertexBufferLayout layout;
+    layout.Push<float>(3);
+    //layout.Push<float>(2);
+    //layout.Push<float>(4);
+    //layout.Push<float>(1);
+    m_VAO.AddBuffer(m_VBO, layout);
 
     //Initialising IndexBuffer
-    IndexBuffer m_IBO = IndexBuffer(group.GetIndicies(), group.GetIndiciesCount());
+    IndexBuffer m_IBO(indicies, 3);
 
     //Initialising shader
     Shader m_Shader("res/shaders/Basic.shader");
@@ -140,7 +138,7 @@ int main(void)
             m_Shader.setUniformMat4f("u_Projection", m_Proj);
             m_VBO.Bind();
             m_IBO.Bind();
-            renderer.DrawArrays(m_IBO);
+            renderer.Draw(m_VAO, m_IBO, m_Shader);
             m_Shader.UnBind();
             m_VAO.UnBind();
             m_IBO.UnBind();
