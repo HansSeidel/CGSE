@@ -32,6 +32,7 @@ glm::vec3 v_cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 // camera - movement
 glm::vec3 v_cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 v_cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+float m_speed = 2.5f;
 void processInput(GLFWwindow* window);
 
 int main(void)
@@ -125,7 +126,7 @@ int main(void)
         glm::vec3(1.5f,  0.2f, -1.5f),
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
-    
+
     unsigned int VBO, VAO; //Defining the IDs of the Vertex Buffer and the Vertex Array
     //Generating those buffers and safe the ID inside the unsigned ints.
     glGenVertexArrays(1, &VAO);
@@ -268,15 +269,15 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    float cameraSpeed = static_cast<float>(2.5 * deltaTime);
+    float cameraSpeed = static_cast<float>(m_speed * deltaTime);
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        v_cameraPos += cameraSpeed * v_cameraFront;
+        v_cameraPos.z -= cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        v_cameraPos -= cameraSpeed * v_cameraFront;
+        v_cameraPos.z += cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        v_cameraPos -= glm::normalize(glm::cross(v_cameraFront, v_cameraUp)) * cameraSpeed;
+        v_cameraPos.x -= cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        v_cameraPos += glm::normalize(glm::cross(v_cameraFront, v_cameraUp)) * cameraSpeed;
+        v_cameraPos.x += cameraSpeed;
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

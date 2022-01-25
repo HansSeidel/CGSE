@@ -1,9 +1,9 @@
 #Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
-> *Version:* 1.3 (gitTag: v1.3) <br>
-> *Git commit message:* Project - Implemented first Person <br>
-> *Version Date:* 19.01.2022 
+> *Version:* 1.4 (gitTag: v1.4) <br>
+> *Git commit message:* NewAtt - Implemented first Person <br>
+> *Version Date:* 25.01.2022 
 
 
 ##Description
@@ -112,6 +112,10 @@ Unluckly, their was either an error message by visual Stuidios as well as an err
 which have been added inside the renderer.h file. 
 The component inside the sceen disappeared and any debugging failed. 
 The problem could not be found and solved.
-**(v1.4)**
+**(v1.4)** - At this commit, the project has been reseted far back. 
+Only the shader class was kept in the project. 
+As the following [tutorial](https://learnopengl.com/Getting-started/Camera) has been followed an error was found inside the shader class.
+The MVP projection didn't work with the given setup, so it had to bee the PVM projection.
+To be honest... I didn't look into the maths behind this problem.
 
 
