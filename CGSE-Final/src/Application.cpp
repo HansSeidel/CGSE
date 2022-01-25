@@ -59,12 +59,11 @@ int main(void)
     /* H - Initialize glew Init*/
     glewInit();
    
-    /* H - Setting up projection martix */
-    glm::mat4 m_Proj(glm::perspective(45.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f));
+
     
     // Allow Blending (Blending includes transparency)
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     Shader shader("res/shaders/Basic.shader");
 
@@ -230,10 +229,13 @@ int main(void)
 
         shader.Bind();
 
+        // Setting up projection martix 
+        glm::mat4 m_Proj(glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f));
+
         //Set projection Matrix:
         shader.setUniformMat4f("u_Projection", m_Proj);
 
-        //set view matrix
+        //Set view matrix
         glm::mat4 m_View = glm::lookAt(v_cameraPos, v_cameraPos + v_cameraFront, v_cameraUp);
         shader.setUniformMat4f("u_View", m_View);
 
@@ -244,9 +246,8 @@ int main(void)
             glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             shader.setUniformMat4f("u_Model", model);
-
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
         
@@ -321,5 +322,5 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
     front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     front.y = sin(glm::radians(pitch));
     front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    v_cameraFront = front;
+    v_cameraFront = glm::normalize(front);
 }
