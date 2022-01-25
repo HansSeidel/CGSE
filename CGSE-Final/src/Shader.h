@@ -3,7 +3,6 @@
 #include <string>
 #include <unordered_map>
 #include "glm/gtc/matrix_transform.hpp"
-#include <unordered_map>
 
 struct ShaderProgramSource
 {
