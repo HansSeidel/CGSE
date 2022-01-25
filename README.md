@@ -107,5 +107,11 @@ Except of the methods DrawSingleCall and SetupSingleCall, everything is manage C
 At this point the normals aren't working correct and the texture uniform array doesn't get assigned.
 **(v1.2)** - Unluckly, the mouse input is handled by callbackfunction. 
 This leads out of many reasons to a splitted implemtation of the PlayerController and the camera inputs.
+**(v1.3)** - At this point most parts of the program which had been working, didn't work anymore. 
+Unluckly, their was either an error message by visual Stuidios as well as an error message by the openGL macros
+which have been added inside the renderer.h file. 
+The component inside the sceen disappeared and any debugging failed. 
+The problem could not be found and solved.
+**(v1.4)**
 
 
