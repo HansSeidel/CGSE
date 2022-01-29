@@ -266,18 +266,32 @@ int main(void)
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow* window)
 {
+    
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
     float cameraSpeed = static_cast<float>(m_speed * deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        v_cameraPos.z -= cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        v_cameraPos.z += cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        v_cameraPos.x -= cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        v_cameraPos.x += cameraSpeed;
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+            cameraSpeed /= 2; //This denies doupling the speed when going sideways
+            if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) cameraSpeed = 0; //If user tries to move forward and backwrds the same time, deny any movement
+        }
+        v_cameraPos.z += cameraSpeed * v_cameraFront.z;
+        v_cameraPos.x += cameraSpeed * v_cameraFront.x;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) cameraSpeed /= 2; //This denies doupling the speed when going sideways
+        v_cameraPos.z -= cameraSpeed * v_cameraFront.z;
+        v_cameraPos.x -= cameraSpeed * v_cameraFront.x;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        v_cameraPos.x += cameraSpeed * v_cameraFront.z;
+        v_cameraPos.z -= cameraSpeed * v_cameraFront.x;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        v_cameraPos.z += cameraSpeed * v_cameraFront.x;
+        v_cameraPos.x -= cameraSpeed * v_cameraFront.z;
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -291,6 +305,9 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
+    //Clearing negative degrees and values above 360
+    //if (yaw < 0 || yaw > 360) yaw = (float)((int)yaw % 360);
+    //if (pitch < 0 || pitch > 360) pitch = (float)((int)pitch % 360);
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 

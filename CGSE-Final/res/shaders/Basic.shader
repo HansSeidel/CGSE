@@ -20,7 +20,7 @@ void main(){
 #version 330 core
 //H-Write own Fragment Shader
 
-layout(location = 0) out vec4 o_color;
+layout(location = 0) out vec4 o_Color;
 
 in vec2 v_TexCoord;
 
@@ -28,5 +28,5 @@ uniform sampler2D texture1;
 uniform sampler2D texture2;
 
 void main(){
-	o_color = mix(texture(texture1, v_TexCoord), texture(texture2, v_TexCoord), 0.5);
+	o_Color = mix(texture(texture1, v_TexCoord), texture(texture2, v_TexCoord), 0.5);
 };
