@@ -1,4 +1,4 @@
-#Final project CGSE
+# Final project CGSE
 
 > ***Author:*** Hans Seidel (if20b211) <br>
 > *Version:* 1.4 (gitTag: v1.4) <br>
@@ -6,7 +6,7 @@
 > *Version Date:* 25.01.2022 
 
 
-##Description
+## Description
 The aim of this project is to learn openGL and genereate a demonstration project. 
 This project is part of a lecture at the *Fachhochschule Technikum Wien*.
 The final project shows a endless world with the same house arrayed next to each other.
@@ -15,7 +15,7 @@ The final project shows a endless world with the same house arrayed next to each
 - [Envirement and Dependencies](#envirement-and-dependencies)
 - [Setup](#setup)
 
-##Tasks
+## Tasks
 The original assignment description is shown at the following link: [Project Submission](https://moodle.technikum-wien.at/mod/assign/view.php?id=850504) *(You need permissions for this link)*
 <br>The least expectations are:
 - Presentation of three textured objects
@@ -26,9 +26,9 @@ The original assignment description is shown at the following link: [Project Sub
   - Sorted by quicksort and center of gravity calculations
 - One object with three discrete level of detail instances that are based on range
 
-##Envirement and Dependencies
+## Envirement and Dependencies
 
-###Envirement 
+### Envirement 
 
 > ***Operating System:*** Windows <br>
 > *Version:* Windows 10 Education 20H2
@@ -36,7 +36,7 @@ The original assignment description is shown at the following link: [Project Sub
 > ***Development envirement:*** Visual Studio 2019<br>
 > *Version:* 16.11.8
 
-###Dependencies
+### Dependencies
 > ***GLFW Librarby:*** [Windows pre-compiled binaries](https://www.glfw.org/download.html) <br>
 > *Architecture:* 32-bit Windows binaries <br>
 > *Version:* 3.3.6 <br>
@@ -50,7 +50,8 @@ The original assignment description is shown at the following link: [Project Sub
 > ***GLM Library:*** [G-Truc Creation Github](https://github.com/g-truc/glm/releases/tag/0.9.8.5) <br>
 > *Version:* glm-0.9.8.5
 
-##Setup
+## Setup
+0. Clone the repository from https://github.com/HansSeidel/CGSE.git  
 1. Download the ***GLFW Library*** and put the ***include*** and the ***lib-vc2019*** folder inside the ***Dependencies\GLFW*** folder.
 2. Download the ***Glew Library*** and put the whole content into the ***Dependencies\GLEW*** folder.
 3. Download the ***GLM Library*** and put the ***glm*** folder inside the ***CGSE-Final\src\vendor*** folder.
